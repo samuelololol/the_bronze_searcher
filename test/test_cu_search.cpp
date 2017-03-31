@@ -1,9 +1,13 @@
 #include "gtest/gtest.h"
-//#include "gmock/gmock.h"
 
-TEST(Dummy, foobar)
+extern "C" {
+#include "../src/cu_search.h"
+}
+
+
+TEST(Dummy, cu_search)
 {
-    EXPECT_EQ(1, 1);
+    EXPECT_EQ(NULL, cu_search(NULL, NULL));
 }
 
 
