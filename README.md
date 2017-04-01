@@ -5,9 +5,10 @@ cu
 ## Build
 
 ```
-$ mkdir the_bronze_searcher/build
-$ cd the_bronze_searcher/build
+$ mkdir the_bronze_searcher/_build
+$ cd the_bronze_searcher/_build
 $ cmake ..
 $ cd src
 $ make
+$ ctest
 ```

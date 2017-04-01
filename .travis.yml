@@ -1,0 +1,9 @@
+language:
+   - cpp
+
+script:
+    - mkdir _builds
+    - cd _builds
+    - cmake ..
+    - make
+    - ctest
