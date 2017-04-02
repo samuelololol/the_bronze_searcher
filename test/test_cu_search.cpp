@@ -9,6 +9,8 @@ extern "C" {
 #include <libgen.h>
 #endif
 
+#define PATH_MAX 1024
+
     static bool get_exe_path(char **out, const unsigned int size)
     {
         bool success = false;
