@@ -3,10 +3,10 @@
 extern "C" {
 #include "../src/cu_search.h"
 #include <stdbool.h>
+#include <libgen.h>
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
 #else
-#include <libgen.h>
 #endif
 
 #define PATH_MAX 1024
@@ -16,10 +16,12 @@ extern "C" {
         bool success = false;
 
 #ifdef __APPLE__
-        if (_NSGetExecutablePath(*out, (uint32_t *)&size) == 0)
+        if (_NSGetExecutablePath(*out, (uint32_t *)&size) == 0) {
             success = true;
-        else
+            *out = dirname(*out);
+        } else {
             success = false;
+        }
         goto EXIT;
 
 #elif __linux__
@@ -28,7 +30,6 @@ extern "C" {
 
         if (count != -1) {
             success = false;
-            *out = dirname(*out);
         } else {
             success = true;
         }
