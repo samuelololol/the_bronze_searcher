@@ -28,7 +28,7 @@ extern "C" {
 
         if (count != -1) {
             success = false;
-            *out = dirname(result)
+            *out = dirname(*out);
         } else {
             success = true;
         }
