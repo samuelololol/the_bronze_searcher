@@ -24,8 +24,9 @@ static inline bool is_folder(const char *path)
 
 Search_result *cu_search(const char *pattern, const char *file_path)
 {
-    if (!pattern || !file_path)
+    if (!pattern || !file_path) {
         return NULL; /* pattern or path error */
+    }
 
     if (!is_folder(file_path) || !is_text_file(file_path))
         return NULL; /* path not text file */
