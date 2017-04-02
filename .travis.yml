@@ -13,7 +13,7 @@ before_script:
     - wget https://raw.githubusercontent.com/torvalds/linux/master/scripts/checkpatch.pl && chmod a+x checkpatch.pl
     - wget https://raw.githubusercontent.com/torvalds/linux/master/scripts/spelling.txt
     - echo "invalid.struct.name" >const_structs.checkpatch
-    - find . -name "*.c" -o -name "*.cpp" -o -name "*.h" | xargs -I {} ./checkpatch.pl --ignore NEW_TYPEDEFS,CAMELCASE,LEADING_SPACE,CODE_INDENT,CONST_STRUCT --terse --no-tree --strict --file $c
+    - find . -name "*.c" -o -name "*.cpp" -o -name "*.h" | xargs -I {} ./checkpatch.pl --ignore NEW_TYPEDEFS,CAMELCASE,LEADING_SPACE,CODE_INDENT,CONST_STRUCT --terse --no-tree --strict --file {}
 
 script:
     - mkdir _builds
