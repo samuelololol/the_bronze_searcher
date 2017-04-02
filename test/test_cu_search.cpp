@@ -6,11 +6,7 @@ extern "C" {
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
 #else
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <libproc.h>
+#include <libgen.h>
 #endif
 
     static bool get_exe_path(char **out, const unsigned int size)
@@ -25,14 +21,15 @@ extern "C" {
         goto EXIT;
 
 #elif __linux__
-        pid_t pid = pid();
-        int ret = proc_pidpath(pid, *out, size);
 
-        if (ret <= 0)
+        ssize_t count = readlink("/proc/self/exe", *out, size);
+
+        if (count != -1) {
             success = false;
-
-        else
+            *out = dirname(result)
+        } else {
             success = true;
+        }
 #endif
 EXIT:
         return success;
