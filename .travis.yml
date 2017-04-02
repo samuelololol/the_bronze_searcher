@@ -8,7 +8,7 @@ addons:
     packages:
       - cmake
       - cmake-data
-      - libprocps3-dev # for test
+      - libproc-dev # for test
 
 before_script:
     - wget https://raw.githubusercontent.com/torvalds/linux/master/scripts/checkpatch.pl && chmod a+x checkpatch.pl
