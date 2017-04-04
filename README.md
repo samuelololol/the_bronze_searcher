@@ -5,6 +5,13 @@ cu
 
 ## Build
 
+### Requirement
+
+
+*    gcc
+*    cmake-2.9
+
+
 ```
 $ mkdir the_bronze_searcher/_build
 $ cd the_bronze_searcher/_build
