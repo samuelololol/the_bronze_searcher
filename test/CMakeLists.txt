@@ -19,6 +19,12 @@ add_executable(test_hello test_hello.cpp)
 target_link_libraries(test_hello gtest)
 add_test(NAME test_hello COMMAND test_hello)
 
+add_executable(test_cu_file test_cu_file.cpp ../src/cu_file.h ../src/cu_file.c
+                                             ../src/cu_common.h ../src/cu_common.c
+                                             )
+target_link_libraries(test_cu_file gtest)
+add_test(NAME test_cu_file COMMAND test_cu_file)
+
 add_executable(test_cu_search test_cu_search.cpp ../src/cu_search.c ../src/cu_search.h)
 target_link_libraries(test_cu_search gtest)
 add_test(NAME test_cu_search COMMAND test_cu_search)

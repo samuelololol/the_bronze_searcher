@@ -1,9 +1,10 @@
 #include "gtest/gtest.h"
 
 extern "C" {
+#include "../src/cu_common.h"
 #include "../src/cu_search.h"
 #include <stdbool.h>
-#include <libgen.h>
+#include <libgen.h>             /* dirname() */
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
 #else
@@ -11,7 +12,7 @@ extern "C" {
 
 #define PATH_MAX 1024
 
-    static bool get_exe_path(char **out, const unsigned int size)
+    static bool _get_exe_folder_path(char **out, const unsigned int size)
     {
         bool success = false;
 
@@ -34,21 +35,33 @@ extern "C" {
             success = true;
         }
 #endif
+
 EXIT:
         return success;
+    }
+
+    static void get_test_data_folder(char **folder)
+    {
+        unsigned int size = PATH_MAX * sizeof(char);
+        char *exe_folder_path = (char *)malloc(size);
+
+        _get_exe_folder_path(&exe_folder_path, size);
+        printf("exe folder: %s\n", exe_folder_path);
+
+        free(exe_folder_path);
     }
 }
 
 TEST(Dummy, cu_search)
 {
     unsigned int size = PATH_MAX * sizeof(char);
-    char *cfpath = (char *)malloc(size);
+    char *path = (char *)malloc(size);
 
-    get_exe_path(&cfpath, size);
-    printf("fpath: %s\n", cfpath);
+    get_test_data_folder(&path);
+    path = dirname(path);
 
+    printf("path: %s\n", path);
     EXPECT_EQ(NULL, cu_search(NULL, NULL));
-    free(cfpath);
 }
 
 int main(int argc, char **argv)

@@ -2,13 +2,8 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "cu_common.h"
 #include "cu_search.h"
-
-struct _search_result {
-    char *path;
-    unsigned int line_no;
-    /* unsigned int column; */
-};
 
 /* chec if text file */
 static inline bool is_text_file(const char *path)
