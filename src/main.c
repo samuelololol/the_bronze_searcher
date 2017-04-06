@@ -3,7 +3,6 @@
 
 #include "cu_common.h"
 #include "cu_file.h"
-#include "cu_search.h"
 
 int main(void)
 {
