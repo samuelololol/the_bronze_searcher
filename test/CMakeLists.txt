@@ -14,16 +14,20 @@ execute_process(COMMAND ${CMAKE_COMMAND} --build .
 add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
                  ${CMAKE_BINARY_DIR}/googletest-build)
 
-# test hello world
-add_executable(test_hello test_hello.cpp)
-#target_link_libraries(test_hello gtest gmock_main)
-target_link_libraries(test_hello gtest)
-add_test(NAME test_hello COMMAND test_hello)
+# marked for further reference
+# -------------------
+# # test hello world
+# add_executable(test_hello test_hello.cpp)
+# #target_link_libraries(test_hello gtest gmock_main)
+# target_link_libraries(test_hello gtest)
+# add_test(NAME test_hello COMMAND test_hello)
 
 
 # test cu_file
-add_executable(test_cu_file test_cu_file.cpp ../src/cu_file.h ../src/cu_file.c
-                                             ../src/cu_common.h ../src/cu_common.c
-                                             )
+add_executable(test_cu_file
+               ../src/cu_common.h ../src/cu_common.c
+               ../src/cu_file.h ../src/cu_file.c
+               test_cu_file.cpp)
+
 target_link_libraries(test_cu_file gtest)
 add_test(NAME test_cu_file COMMAND test_cu_file)

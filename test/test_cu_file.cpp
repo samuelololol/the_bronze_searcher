@@ -56,7 +56,7 @@ EXIT:
 
 
 
-TEST(cu_file, cu_file_null)
+TEST(cu_file, Test_File_Search_Function_Arguments_NULL)
 {
     unsigned int size = PATH_MAX * sizeof(char);
     char *path = (char *)malloc(size);
