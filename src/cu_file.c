@@ -4,9 +4,6 @@
 #include "cu_common.h"
 #include "cu_file.h"
 
-extern bool is_text_file(const char *path);
-extern bool is_folder(const char *path);
-
 bool cu_file_search(struct _cu_file *ths, const char *pattern,
                     Search_result *result)
 {
