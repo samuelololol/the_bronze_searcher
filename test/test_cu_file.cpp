@@ -5,6 +5,7 @@ extern "C" {
 #include "../src/cu_file.h"
 #include <stdbool.h>
 #include <libgen.h>             /* dirname() */
+#include <string.h>
 
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
@@ -13,14 +14,19 @@ extern "C" {
 
 #define PATH_MAX 1024
 
-    static bool _get_exe_folder_path(char **out, const unsigned int size)
+    static bool _get_exe_folder_path(char **out, const unsigned int size,
+                                     size_t *path_len)
     {
         bool success = false;
 
-#ifdef __APPLE__
+#if __APPLE__
         if (_NSGetExecutablePath(*out, (uint32_t *)&size) == 0) {
             success = true;
-            *out = dirname(*out);
+            *out = dirname(*out); /* _build/./test */
+            *out = dirname(*out); /* _build/. */
+            *out = dirname(*out); /* _build/ */
+            *out = dirname(*out); /* / */
+            printf("size of path: %d\n", strlen(*out));
         } else {
             success = false;
         }
@@ -41,30 +47,38 @@ EXIT:
         return success;
     }
 
-    static void get_test_data_folder(char **folder)
+    static bool get_test_data_folder(char **folder, const unsigned int size)
     {
-        unsigned int size = PATH_MAX * sizeof(char);
-        char *exe_folder_path = (char *)malloc(size);
+        //unsigned int size = PATH_MAX * sizeof(char);
+        size_t len = 0;
 
-        _get_exe_folder_path(&exe_folder_path, size);
-        printf("exe folder: %s\n", exe_folder_path);
+        bool success = _get_exe_folder_path(folder, size, &len);
 
-        free(exe_folder_path);
+        if (!success) {
+            printf("get test data folder fail!");
+            return false;
+        }
+        else {
+            if(NULL == strncat(*folder, "/test/data", len + 10 + 1)) {
+                printf("concat project path with test data folder path fail\n");
+                return false;
+            }
+            else {
+                printf("test data folder: %s\n", *folder);
+                return true;
+            }
+        }
     }
 }
-
-
-
 
 TEST(cu_file, Test_File_Search_Function_Arguments_NULL)
 {
     unsigned int size = PATH_MAX * sizeof(char);
     char *path = (char *)malloc(size);
 
-    get_test_data_folder(&path);
-    path = dirname(path);
+    if(get_test_data_folder(&path, size))
+        printf("path: %s\n", path);
 
-    printf("path: %s\n", path);
 
     CU_File f = {{&cu_file_search}, "/tmp"};
     EXPECT_EQ(NULL, f.method.search(NULL, NULL, NULL));
