@@ -36,4 +36,5 @@ add_executable(test_cu_file
 
 target_link_libraries(test_cu_common gtest)
 target_link_libraries(test_cu_file gtest)
+add_test(NAME test_cu_common COMMAND test_cu_common)
 add_test(NAME test_cu_file COMMAND test_cu_file)
