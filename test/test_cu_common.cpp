@@ -92,7 +92,7 @@ EXIT:
     }
 }
 
-TEST(cu_file, Test_File_Search_Function_Arguments_NULL)
+TEST(cu_file, test_is_text_file)
 {
     unsigned int size = PATH_MAX * sizeof(char);
     char *path = (char *)malloc(size);
@@ -100,9 +100,7 @@ TEST(cu_file, Test_File_Search_Function_Arguments_NULL)
     if(get_utf8_test_file_path(&path, size))
         printf("path: %s\n", path);
 
-
-    CU_File f = {{&cu_file_search}, "/tmp"};
-    EXPECT_EQ(NULL, f.method.search(NULL, NULL, NULL));
+    EXPECT_EQ(true, is_text_file(path));
 }
 
 int main(int argc, char **argv)
