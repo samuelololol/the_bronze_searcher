@@ -27,14 +27,13 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
 add_executable(test_cu_common
                ../src/cu_common.h ../src/cu_common.c
                test_cu_common.cpp)
+target_link_libraries(test_cu_common gtest)
+add_test(NAME test_cu_common COMMAND test_cu_common)
 
 # test cu_file
 add_executable(test_cu_file
                ../src/cu_common.h ../src/cu_common.c
                ../src/cu_file.h ../src/cu_file.c
                test_cu_file.cpp)
-
-target_link_libraries(test_cu_common gtest)
 target_link_libraries(test_cu_file gtest)
-add_test(NAME test_cu_common COMMAND test_cu_common)
 add_test(NAME test_cu_file COMMAND test_cu_file)

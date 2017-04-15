@@ -7,11 +7,16 @@
 bool cu_file_search(struct _cu_file *ths, const char *pattern,
                     Search_result *result)
 {
-    if (!pattern || !ths->path || !is_text_file(pattern))
+    mode_t type;
+
+    if (!get_file_type(pattern, &type))
+        return NULL; /* get file type error */
+
+    if (!pattern || !ths->path)
         return NULL; /* pattern or path error */
 
-    if (!is_folder(ths->path) || !is_text_file(ths->path))
-        return NULL; /* path not text file */
+    if (!S_ISREG(type) && !S_ISDIR(type))
+        return NULL; /* neither a regular file or directory */
 
     return false;
 }

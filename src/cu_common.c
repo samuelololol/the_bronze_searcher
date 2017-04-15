@@ -1,27 +1,20 @@
 #include <sys/stat.h>
 #include "cu_common.h"
 
-/* chec if text file */
-bool is_text_file(const char *path)
+bool get_file_type(const char *path, mode_t *type)
 {
-    bool is_file = false;
+    bool success = false;
     struct stat stbuf;
 
-    if (stat(path, &stbuf)) {
+    if (stat(path, &stbuf) != 0) {
         /* stat file error */
-        is_file = false;
+        success = false;
         goto EXIT;
     }
 
-    if (S_ISREG(stbuf.st_mode))
-        is_file = true;
+    *type = stbuf.st_mode;
+    success = true;
 
 EXIT:
-    return is_file;
-}
-
-/* check if folder */
-bool is_folder(const char *path)
-{
-    return false;
+    return success;
 }

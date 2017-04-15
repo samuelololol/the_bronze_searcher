@@ -1,6 +1,7 @@
 #ifndef __CU_COMMON_H__
 #define __CU_COMMON_H__
 #include <stdbool.h>
+#include <sys/stat.h>
 
 typedef struct _search_result {
     char *path;
@@ -8,7 +9,6 @@ typedef struct _search_result {
     /* unsigned int column; */
 } Search_result;
 
-bool is_text_file(const char *path);
-bool is_folder(const char *path);
+bool get_file_type(const char *path, mode_t *type);
 
 #endif

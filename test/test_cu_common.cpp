@@ -2,14 +2,15 @@
 
 extern "C" {
 #include "../src/cu_common.h"
-#include "../src/cu_file.h"
 #include <stdbool.h>
 #include <libgen.h>             /* dirname() */
 #include <string.h>
 
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
+//#define _BSD_SOURCE
 #else
+//#define _GNU_SOURCE
 #endif
 
 #define PATH_MAX 1024
@@ -28,7 +29,7 @@ extern "C" {
             *out = dirname(*out); /* / */
 
             *path_len = strlen(*out);
-            printf("size of path: %lu\n", *path_len);
+            // printf("size of path: %lu\n", *path_len);
         } else {
             success = false;
         }
@@ -55,7 +56,7 @@ EXIT:
         bool success = _get_exe_folder_path(folder, size, len);
 
         if (!success) {
-            printf("get test data folder fail!");
+            // printf("get test data folder fail!");
             return false;
         }
         else {
@@ -66,7 +67,7 @@ EXIT:
                 return false;
             }
             else {
-                printf("test data folder: %s\n", *folder);
+                // printf("test data folder: %s\n", *folder);
                 return true;
             }
         }
@@ -82,17 +83,17 @@ EXIT:
         len += 9 + 1;
 
         if(NULL == strncat(*path, "/utf8.txt", len)) {
-            printf("concat test data folder path with utf8 filename fail\n");
+            // printf("concat test data folder path with utf8 filename fail\n");
             return false;
         }
         else {
-            printf("test file path: %s\n", *path);
+            // printf("test file path: %s\n", *path);
             return true;
         }
     }
 }
 
-TEST(cu_file, test_is_text_file)
+TEST(cu_common, test_get_file_type)
 {
     unsigned int size = PATH_MAX * sizeof(char);
     char *path = (char *)malloc(size);
@@ -100,7 +101,13 @@ TEST(cu_file, test_is_text_file)
     if(get_utf8_test_file_path(&path, size))
         printf("path: %s\n", path);
 
-    EXPECT_EQ(true, is_text_file(path));
+    mode_t type = 0;
+    bool success = false;
+    success = get_file_type(path, &type);
+
+    EXPECT_TRUE(success);
+    EXPECT_TRUE(S_ISREG(type));
+    //EXPECT_EQ(true, S_ISREG(type));
 }
 
 int main(int argc, char **argv)
