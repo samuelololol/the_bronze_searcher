@@ -57,15 +57,13 @@ EXIT:
         if (!success) {
             printf("get test data folder fail!");
             return false;
-        }
-        else {
+        } else {
             *len += 10 + 1;
 
             if(NULL == strncat(*folder, "/test/data", *len)) {
                 printf("concat project path with test data folder path fail\n");
                 return false;
-            }
-            else {
+            } else {
                 printf("test data folder: %s\n", *folder);
                 return true;
             }
@@ -84,8 +82,7 @@ EXIT:
         if(NULL == strncat(*path, "/utf8.txt", len)) {
             printf("concat test data folder path with utf8 filename fail\n");
             return false;
-        }
-        else {
+        } else {
             printf("test file path: %s\n", *path);
             return true;
         }
@@ -101,8 +98,14 @@ TEST(cu_file, Test_File_Search_Function_Arguments_NULL)
         printf("path: %s\n", path);
 
 
-    CU_File f = {{&cu_file_search}, "/tmp"};
-    EXPECT_EQ(NULL, f.method.search(NULL, NULL, NULL));
+    CU_File f = {
+search:
+        &cu_file_search,
+path: "/tmp"
+        ,
+    };
+
+    EXPECT_EQ(NULL, f.search(NULL, NULL, NULL));
 }
 
 int main(int argc, char **argv)

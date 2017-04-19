@@ -7,12 +7,16 @@
 
 int main(void)
 {
-    CU_File f = {{&cu_file_search}, "/tmp"};
+    CU_File f = {
+        .search = &cu_file_search,
+        .path = "/tmp"
+    };
+
     int r_size = sizeof(struct _search_result);
     Search_result *r = (Search_result *) malloc(r_size);
 
     memset(r, '\0', r_size);
-    f.method.search(&f, "pattern", r);
+    f.search(&f, "pattern", r);
     printf("search result: %s\nline: %d\n", r->path, r->line_no);
     return 0;
 }
